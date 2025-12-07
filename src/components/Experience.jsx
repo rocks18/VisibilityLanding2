@@ -66,7 +66,7 @@ function Scene() {
 
 export default function Experience({ children }) {
     return (
-        <ScrollControls pages={5} damping={0.3}>
+        <ScrollControls pages={8} damping={0.3}>
             <Scene />
             <Scroll html style={{ width: '100%' }}>
                 {children}
