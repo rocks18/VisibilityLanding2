@@ -1,76 +1,155 @@
-import { useRef } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useScroll, ScrollControls, Scroll, Stars, Float } from '@react-three/drei'
+import { useRef, useState, useEffect, useMemo } from 'react'
+import { useFrame, useThree, extend } from '@react-three/fiber'
+import { Stars, Float } from '@react-three/drei'
 import * as THREE from 'three'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass'
+import BlackHole from './BlackHole'
+import Supernova from './Supernova'
+import Pulsar from './Pulsar'
 
-function Scene() {
-    const scroll = useScroll()
-    const group = useRef()
-    const particles = useRef()
+// Extend Three.js classes for R3F
+extend({ EffectComposer, RenderPass, UnrealBloomPass, OutputPass })
+
+function Bloom({ children }) {
+    const { gl, camera, scene, size } = useThree()
+    const composer = useRef()
+
+    useEffect(() => {
+        if (composer.current) {
+            composer.current.setSize(size.width, size.height)
+        }
+    }, [size])
+
+    useFrame(() => {
+        if (composer.current) {
+            composer.current.render()
+        }
+    }, 1) // Render priority 1 to ensure it runs after default render
+
+    return (
+        <>
+            <effectComposer ref={composer} args={[gl]}>
+                <renderPass attach="passes-0" args={[scene, camera]} />
+                <unrealBloomPass attach="passes-1" args={[new THREE.Vector2(size.width, size.height), 1.5, 0.4, 0.85]} threshold={1} strength={1.5} radius={0.4} />
+                <outputPass attach="passes-2" />
+            </effectComposer>
+        </>
+    )
+}
+
+export default function Experience({ setExplosionState, scrollRef }) {
+    const { scene } = useThree()
+    const starGroup = useRef()
+    const starMesh = useRef()
+    const pulsarGroup = useRef()
+    const blackHoleGroup = useRef()
+    const [scrollProgress, setScrollProgress] = useState(0)
 
     useFrame((state, delta) => {
-        // Rotate the entire group based on scroll
-        const r1 = scroll.range(0, 1 / 4)
-        const r2 = scroll.range(1 / 4, 1 / 4)
-        const r3 = scroll.range(2 / 4, 1 / 4)
+        // Read scroll progress from ref
+        const offset = scrollRef.current
+        setScrollProgress(offset)
 
-        if (group.current) {
-            group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, -scroll.offset * Math.PI * 2, 4, delta)
-            group.current.position.z = THREE.MathUtils.damp(group.current.position.z, scroll.offset * 5, 4, delta)
+        // --- PHASE 1: STAR & PULSAR (0.0 - 0.5) ---
+        if (starGroup.current) {
+            // Rotate star
+            starGroup.current.rotation.y += delta * 0.5
+
+            // Pulsar Jets (0.3 - 0.5)
+            if (offset > 0.3 && offset < 0.55) {
+                const intensity = (offset - 0.3) * 5 // 0 to 1
+                pulsarGroup.current.visible = true
+                pulsarGroup.current.scale.setScalar(intensity)
+
+                // Instability
+                const scale = 1 + Math.sin(state.clock.elapsedTime * 30) * 0.1 * intensity
+                starGroup.current.scale.set(scale, scale, scale)
+
+                if (starMesh.current) {
+                    starMesh.current.material.color.setHSL(0.6 - intensity * 0.5, 1, 0.5 + intensity * 0.5) // Blue -> White
+                    starMesh.current.material.emissiveIntensity = intensity * 2
+                }
+            } else if (offset <= 0.3) {
+                pulsarGroup.current.visible = false
+                starGroup.current.scale.set(1, 1, 1)
+                if (starMesh.current) {
+                    starMesh.current.material.color.set("#00f3ff")
+                    starMesh.current.material.emissiveIntensity = 0
+                }
+            }
+
+            // Hide star after explosion
+            if (offset > 0.55) {
+                starGroup.current.visible = false
+                pulsarGroup.current.visible = false
+            } else {
+                starGroup.current.visible = true
+            }
         }
 
-        if (particles.current) {
-            particles.current.rotation.y += delta * 0.05
-            particles.current.rotation.x += delta * 0.02
+        // --- PHASE 2: WHITEOUT EXPLOSION (0.5 - 0.6) ---
+        if (offset > 0.5 && offset < 0.6) {
+            // Flash White
+            scene.background = new THREE.Color("#ffffff")
+            setExplosionState(true)
+        } else {
+            // Fade back to black
+            scene.background = new THREE.Color("#000000")
+            setExplosionState(false)
+        }
+
+        // --- PHASE 3: BLACK HOLE (0.8 - 1.0) ---
+        if (blackHoleGroup.current) {
+            if (offset > 0.75) {
+                blackHoleGroup.current.visible = true
+                // Fade in / Scale up
+                const appearance = Math.min(1, (offset - 0.75) * 4)
+                blackHoleGroup.current.scale.setScalar(appearance)
+            } else {
+                blackHoleGroup.current.visible = false
+            }
         }
     })
 
     return (
         <>
-            <group ref={group}>
-                {/* Main Hero Object */}
+            {/* PHASE 1: The Star */}
+            <group ref={starGroup} position={[0, 0, 0]}>
                 <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-                    <mesh position={[2, 0, 0]} scale={1.5}>
+                    <mesh ref={starMesh} scale={1.5}>
                         <icosahedronGeometry args={[1, 1]} />
-                        <meshStandardMaterial color="#00f3ff" wireframe />
+                        <meshStandardMaterial color="#00f3ff" wireframe emissive="#00f3ff" emissiveIntensity={0.5} />
                     </mesh>
-                </Float>
-
-                {/* Secondary Object for Services */}
-                <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
-                    <mesh position={[-2, -4, -2]} scale={1}>
-                        <octahedronGeometry args={[1, 0]} />
-                        <meshStandardMaterial color="#bc13fe" wireframe />
-                    </mesh>
-                </Float>
-
-                {/* Tertiary Object for Tech Stack */}
-                <Float speed={2.5} rotationIntensity={0.8} floatIntensity={1.2}>
-                    <mesh position={[2, -8, 0]} scale={1.2}>
-                        <torusKnotGeometry args={[0.6, 0.2, 100, 16]} />
+                    <mesh scale={0.8}>
+                        <icosahedronGeometry args={[1, 0]} />
                         <meshStandardMaterial color="#ffffff" wireframe transparent opacity={0.5} />
                     </mesh>
                 </Float>
+                <group ref={pulsarGroup} visible={false}>
+                    <Pulsar />
+                </group>
             </group>
 
-            <group ref={particles}>
-                <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+            {/* PHASE 2: Supernova Explosion (0.5 - 0.8) */}
+            {scrollProgress > 0.45 && scrollProgress < 0.9 && (
+                <Supernova progress={scrollProgress} />
+            )}
+
+            {/* PHASE 3: Black Hole (0.8 - 1.0) */}
+            <group ref={blackHoleGroup} position={[2, -1, 0]} visible={false}>
+                <BlackHole />
             </group>
+
+            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
 
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} color="#00f3ff" />
-            <pointLight position={[-10, -10, -10]} intensity={1} color="#bc13fe" />
-        </>
-    )
-}
+            <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
+            <pointLight position={[-10, -10, -10]} intensity={1} color="#ffd700" />
 
-export default function Experience({ children }) {
-    return (
-        <ScrollControls pages={8} damping={0.3}>
-            <Scene />
-            <Scroll html style={{ width: '100%' }}>
-                {children}
-            </Scroll>
-        </ScrollControls>
+            <Bloom />
+        </>
     )
 }
