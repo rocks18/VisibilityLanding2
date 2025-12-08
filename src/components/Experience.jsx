@@ -58,11 +58,20 @@ export default function Experience({ setExplosionState, scrollRef }) {
             // Rotate star
             starGroup.current.rotation.y += delta * 0.5
 
+            // Star Movement (Scroll-driven)
+            // Move down and slightly left until Pulsar starts
+            if (offset < 0.3) {
+                starGroup.current.position.y = -offset * 2
+                starGroup.current.position.x = -offset * 0.5
+            }
+
             // Pulsar Jets (0.3 - 0.5)
             if (offset > 0.3 && offset < 0.55) {
                 const intensity = (offset - 0.3) * 5 // 0 to 1
                 pulsarGroup.current.visible = true
                 pulsarGroup.current.scale.setScalar(intensity)
+                // Tilt the pulsar jets to the left
+                pulsarGroup.current.rotation.z = 0.3
 
                 // Instability
                 const scale = 1 + Math.sin(state.clock.elapsedTime * 30) * 0.1 * intensity
@@ -101,12 +110,13 @@ export default function Experience({ setExplosionState, scrollRef }) {
             setExplosionState(false)
         }
 
-        // --- PHASE 3: BLACK HOLE (0.8 - 1.0) ---
+        // --- PHASE 3: BLACK HOLE (0.6 - 1.0) ---
         if (blackHoleGroup.current) {
-            if (offset > 0.75) {
+            // Start immediately after/during whiteout to prevent gap
+            if (offset > 0.55) {
                 blackHoleGroup.current.visible = true
                 // Fade in / Scale up
-                const appearance = Math.min(1, (offset - 0.75) * 4)
+                const appearance = Math.min(1, (offset - 0.55) * 3)
                 blackHoleGroup.current.scale.setScalar(appearance)
             } else {
                 blackHoleGroup.current.visible = false
