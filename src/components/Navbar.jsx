@@ -17,6 +17,7 @@ export default function Navbar() {
                         <div className="ml-10 flex items-baseline space-x-8">
                             <a href="/#home" className="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Home</a>
                             <a href="/#services" className="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                            <Link to="/service-guru" className="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Service Guru</Link>
                             <a href="/#process" className="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Process</a>
                             <a href="/#clients" className="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Clients</a>
                             <a href="/#contact" className="bg-accent text-black hover:bg-white transition-colors px-4 py-2 rounded-full text-sm font-bold">Start Project</a>
@@ -46,6 +47,7 @@ export default function Navbar() {
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         <a href="/#home" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Home</a>
                         <a href="/#services" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Services</a>
+                        <Link to="/service-guru" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Service Guru</Link>
                         <a href="/#process" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Process</a>
                         <a href="/#clients" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium hover:text-accent">Clients</a>
                         <a href="/#contact" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-accent">Start Project</a>

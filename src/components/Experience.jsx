@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useScroll, ScrollControls, Scroll, Stars, Float } from '@react-three/drei'
 import * as THREE from 'three'
@@ -65,8 +65,19 @@ function Scene() {
 }
 
 export default function Experience({ children }) {
+    const [pages, setPages] = useState(6.2)
+
+    useFrame(() => {
+        const path = window.location.pathname
+        if (path === '/service-guru') {
+            if (pages !== 2.9) setPages(2.9)
+        } else {
+            if (pages !== 9.5) setPages(9.5)
+        }
+    })
+
     return (
-        <ScrollControls pages={6.6} damping={0.3}>
+        <ScrollControls pages={pages} damping={0.3}>
             <Scene />
             <Scroll html style={{ width: '100%' }}>
                 {children}
@@ -74,3 +85,4 @@ export default function Experience({ children }) {
         </ScrollControls>
     )
 }
+

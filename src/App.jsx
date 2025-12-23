@@ -4,6 +4,7 @@ import Experience from './components/Experience'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
+import ServiceGuruPage from './pages/ServiceGuruPage'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 
@@ -20,6 +21,7 @@ function App() {
                                 <Navbar />
                                 <Routes>
                                     <Route path="/" element={<Home />} />
+                                    <Route path="/service-guru" element={<ServiceGuruPage />} />
                                     <Route path="/privacy" element={<PrivacyPolicy />} />
                                     <Route path="/terms" element={<TermsOfService />} />
                                 </Routes>
