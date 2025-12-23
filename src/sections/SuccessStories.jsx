@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useScroll } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Section from '../components/Section'
 
 const projects = [
@@ -48,9 +46,13 @@ export default function SuccessStories() {
     const [active, setActive] = useState(0)
     const [canAutoPlay, setCanAutoPlay] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
-    const sectionRef = useRef()
-    const contentRef = useRef()
-    const scroll = useScroll()
+    const containerRef = useRef(null)
+
+    // Use Framer Motion's useScroll
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    })
 
     // 1.5s Delay before Auto-Play starts
     useEffect(() => {
@@ -60,7 +62,7 @@ export default function SuccessStories() {
         return () => clearTimeout(timer)
     }, [])
 
-    // Auto-Play Logic (Active only if allowed and not hovered)
+    // Auto-Play Logic
     useEffect(() => {
         if (!canAutoPlay || isHovered) return
 
@@ -71,165 +73,120 @@ export default function SuccessStories() {
         return () => clearInterval(interval)
     }, [canAutoPlay, isHovered])
 
-    // Scroll-driven logic
-    useFrame(() => {
-        if (!sectionRef.current || !contentRef.current || !scroll) return
-
-        const el = sectionRef.current
-        const content = contentRef.current
-
-        // Get dimensions and positions
-        const rect = el.getBoundingClientRect()
-        const viewportHeight = window.innerHeight
-        const totalHeight = el.clientHeight // Should be tall (e.g. 300vh)
-
-        // Calculate scroll progress within the section
-        // We are "in view" when rect.top <= 0 and rect.bottom >= viewportHeight
-        // Actually, since the parent moves, rect.top changes.
-        // When rect.top is 0, we are at the start.
-        // When rect.top is -(totalHeight - viewportHeight), we are at the end.
-
-        const scrollDist = -rect.top
-        const maxScroll = totalHeight - viewportHeight
-
-        if (scrollDist >= 0 && scrollDist <= maxScroll) {
-            // We are inside the scroll zone
-            // Pin the content
-            content.style.transform = `translateY(${scrollDist}px)`
-
-            // Calculate scroll progress
-            const rawProgress = scrollDist / maxScroll
-
-            // BUFFER LOGIC: 
-            // First 15% of scroll = Wait (Slide 0)
-            // Remaining 85% = Cycle through slides
-            let effectiveProgress = 0
-            if (rawProgress > 0.15) {
-                effectiveProgress = (rawProgress - 0.15) / 0.85
-            }
-
-            // Only override auto-play if user is actively scrolling (effectiveProgress > 0)
-            // But since we want "user scroll starts works", we map scroll to slides.
-            // If we are in the buffer zone, we stick to 0 (or let auto-play work?)
-            // Let's say: Scroll overrides auto-play.
-
-            if (rawProgress > 0.15) {
+    // Scroll Logic to change slides
+    useEffect(() => {
+        const unsubscribe = scrollYProgress.on("change", (latest) => {
+            // Map scroll progress (0 to 1) to slides
+            // We want the change to happen when the section is mostly in view
+            // Let's say between 0.2 and 0.8
+            if (latest > 0.2 && latest < 0.8) {
+                const range = 0.6 // 0.8 - 0.2
+                const progress = (latest - 0.2) / range
                 const slideIndex = Math.min(
-                    Math.floor(effectiveProgress * projects.length),
+                    Math.floor(progress * projects.length),
                     projects.length - 1
                 )
+
                 if (active !== slideIndex) {
                     setActive(slideIndex)
-                    // Disable auto-play once user takes control via scroll
                     setCanAutoPlay(false)
                 }
             }
-
-        } else if (scrollDist < 0) {
-            // Before section
-            content.style.transform = `translateY(0px)`
-        } else {
-            // After section
-            content.style.transform = `translateY(${maxScroll}px)`
-        }
-    })
+        })
+        return () => unsubscribe()
+    }, [scrollYProgress, active])
 
     return (
-        // Make the section very tall to allow for scrolling "through" it
-        <section ref={sectionRef} className="relative w-full" style={{ height: '300vh' }}>
+        <section ref={containerRef} className="relative w-full py-24 px-4 md:px-10">
             <div
-                ref={contentRef}
-                className="w-full h-screen flex items-center justify-center p-4 md:p-10"
+                className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-12 items-center"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-12 items-center">
+                {/* Left Side: Project List */}
+                <div className="w-full md:w-1/3 space-y-6">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h2 className="text-4xl md:text-5xl font-bold mb-2">Success <span className="text-accent">Stories</span></h2>
+                        <p className="text-gray-400 mb-8">Scroll to explore our impact.</p>
+                    </motion.div>
 
-                    {/* Left Side: Project List */}
-                    <div className="w-full md:w-1/3 space-y-6">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <h2 className="text-4xl md:text-5xl font-bold mb-2">Success <span className="text-accent">Stories</span></h2>
-                            <p className="text-gray-400 mb-8">Scroll to explore our impact.</p>
-                        </motion.div>
-
-                        <div className="space-y-4">
-                            {projects.map((project, index) => (
-                                <div
-                                    key={project.id}
-                                    onClick={() => {
-                                        setActive(index)
-                                        setCanAutoPlay(false)
-                                    }}
-                                    className={`p-4 rounded-xl cursor-pointer transition-all duration-300 border ${active === index
-                                        ? 'bg-white/10 border-accent/50 shadow-lg shadow-accent/10'
-                                        : 'bg-transparent border-transparent hover:bg-white/5'
-                                        }`}
-                                >
-                                    <h3 className={`text-xl font-bold ${active === index ? 'text-white' : 'text-gray-400'}`}>
-                                        {project.title}
-                                    </h3>
-                                    <p className="text-sm text-gray-500">{project.category}</p>
-
-                                    {/* Progress Bar for Active Item */}
-                                    {active === index && (
-                                        <motion.div
-                                            className="h-1 bg-accent mt-2 rounded-full"
-                                            layoutId="activeProgress"
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Right Side: Preview Carousel */}
-                    <div className="w-full md:w-2/3 relative h-[400px] md:h-[500px]">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={active}
-                                initial={{ opacity: 0, scale: 0.95, x: 20 }}
-                                animate={{ opacity: 1, scale: 1, x: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, x: -20 }}
-                                transition={{ duration: 0.4 }}
-                                className="absolute inset-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-dark group"
+                    <div className="space-y-4">
+                        {projects.map((project, index) => (
+                            <div
+                                key={project.id}
+                                onClick={() => {
+                                    setActive(index)
+                                    setCanAutoPlay(false)
+                                }}
+                                className={`p-4 rounded-xl cursor-pointer transition-all duration-300 border ${active === index
+                                    ? 'bg-white/10 border-accent/50 shadow-lg shadow-accent/10'
+                                    : 'bg-transparent border-transparent hover:bg-white/5'
+                                    }`}
                             >
-                                {/* Image Placeholder */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${projects[active].color} opacity-10`} />
+                                <h3 className={`text-xl font-bold ${active === index ? 'text-white' : 'text-gray-400'}`}>
+                                    {project.title}
+                                </h3>
+                                <p className="text-sm text-gray-500">{project.category}</p>
 
-                                {/* Content Overlay */}
-                                <div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-dark via-dark/50 to-transparent">
-                                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                        <h3 className="text-3xl font-bold text-white mb-2">{projects[active].title}</h3>
-                                        <p className="text-gray-300 mb-6 max-w-lg">{projects[active].description}</p>
-                                        <a
-                                            href={projects[active].url}
-                                            target={projects[active].isCTA ? "_self" : "_blank"}
-                                            rel={projects[active].isCTA ? "" : "noopener noreferrer"}
-                                            className={`inline-flex items-center gap-2 font-semibold transition-colors ${projects[active].isCTA
-                                                ? "px-6 py-3 bg-accent text-dark rounded-full hover:bg-white hover:text-dark"
-                                                : "text-accent hover:text-white"
-                                                }`}
-                                        >
-                                            {projects[active].isCTA ? "Start Your Project" : "Visit Website"}
-                                            {!projects[active].isCTA && <span>→</span>}
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Placeholder Text for Image Area */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold uppercase tracking-widest pointer-events-none text-center">
-                                    {projects[active].title} <br />
-                                    <span className="text-2xl opacity-50">{projects[active].isCTA ? "Join Us" : "Preview"}</span>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
+                                {/* Progress Bar for Active Item */}
+                                {active === index && (
+                                    <motion.div
+                                        className="h-1 bg-accent mt-2 rounded-full"
+                                        layoutId="activeProgress"
+                                    />
+                                )}
+                            </div>
+                        ))}
                     </div>
-
                 </div>
+
+                {/* Right Side: Preview Carousel */}
+                <div className="w-full md:w-2/3 relative h-[400px] md:h-[500px]">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={active}
+                            initial={{ opacity: 0, scale: 0.95, x: 20 }}
+                            animate={{ opacity: 1, scale: 1, x: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, x: -20 }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute inset-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-dark group"
+                        >
+                            {/* Image Placeholder */}
+                            <div className={`absolute inset-0 bg-gradient-to-br ${projects[active].color} opacity-10`} />
+
+                            {/* Content Overlay */}
+                            <div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-dark via-dark/50 to-transparent">
+                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <h3 className="text-3xl font-bold text-white mb-2">{projects[active].title}</h3>
+                                    <p className="text-gray-300 mb-6 max-w-lg">{projects[active].description}</p>
+                                    <a
+                                        href={projects[active].url}
+                                        target={projects[active].isCTA ? "_self" : "_blank"}
+                                        rel={projects[active].isCTA ? "" : "noopener noreferrer"}
+                                        className={`inline-flex items-center gap-2 font-semibold transition-colors ${projects[active].isCTA
+                                            ? "px-6 py-3 bg-accent text-dark rounded-full hover:bg-white hover:text-dark"
+                                            : "text-accent hover:text-white"
+                                            }`}
+                                    >
+                                        {projects[active].isCTA ? "Start Your Project" : "Visit Website"}
+                                        {!projects[active].isCTA && <span>→</span>}
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Placeholder Text for Image Area */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold uppercase tracking-widest pointer-events-none text-center">
+                                {projects[active].title} <br />
+                                <span className="text-2xl opacity-50">{projects[active].isCTA ? "Join Us" : "Preview"}</span>
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
             </div>
         </section>
     )

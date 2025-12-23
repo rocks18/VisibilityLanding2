@@ -1,58 +1,105 @@
+import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import ServiceGuru3D from '../components/ServiceGuru3D'
-import { Canvas } from '@react-three/fiber'
-import { motion } from 'framer-motion'
-import ServiceGuru3D from '../components/ServiceGuru3D'
-
-
+import ProcessFlow from '../components/ProcessFlow'
 
 export default function ServiceGuru() {
+    const [activeTab, setActiveTab] = useState(0)
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        source: '',
+        location: ''
+    })
+
     const features = [
         {
-            title: "Job Management",
-            description: "Offers Job Creation, Job Allocation and Job Scheduling in easy way to manage and upgrade your small service business.",
-            image: "https://placehold.co/800x500/1e293b/60a5fa?text=Job+Management+Screenshot"
+            category: "Management",
+            items: [
+                {
+                    title: "Job Management",
+                    description: "Offers Job Creation, Job Allocation and Job Scheduling in easy way to manage and upgrade your small service business.",
+                    image: "https://placehold.co/800x500/1e293b/60a5fa?text=Job+Management+Screenshot"
+                },
+                {
+                    title: "Quotation and Invoice",
+                    description: "Spend less time in invoicing with Quoting system to close deals faster with Service Guru Application quickly.",
+                    image: "https://placehold.co/800x500/1e293b/22c55e?text=Quotation+Invoice+Screenshot"
+                },
+                {
+                    title: "Collection and Reports",
+                    description: "Analyze your daily collections and reports are now a breeze to makes your service business automate.",
+                    image: "https://placehold.co/800x500/1e293b/14b8a6?text=Collection+Reports+Screenshot"
+                }
+            ]
         },
         {
-            title: "Suitable for all Service Business",
-            description: "Save your time and money with Service CRM Lite to Simplify and Streamline day-to-day operations hassle free.",
-            image: "https://placehold.co/800x500/1e293b/a855f7?text=Service+Business+Screenshot"
+            category: "Field Operations",
+            items: [
+                {
+                    title: "App for Service Technician",
+                    description: "Adorable solution for technician to access customer details to close the jobs as well field management. Service Guru quick and convenient.",
+                    image: "https://placehold.co/800x500/1e293b/f59e0b?text=Technician+App+Screenshot"
+                },
+                {
+                    title: "Location tracking",
+                    description: "One stop solution for searching field engineer on Google Map in real time location to boost the proficiency of technicians.",
+                    image: "https://placehold.co/800x500/1e293b/ef4444?text=Location+Tracking+Screenshot"
+                },
+                {
+                    title: "Attendance and leave",
+                    description: "Allows field engineers to mark attendance and apply leave from App in real-time with location and selfie.",
+                    image: "https://placehold.co/800x500/1e293b/8b5cf6?text=Attendance+Leave+Screenshot"
+                }
+            ]
         },
         {
-            title: "Quotation and Invoice",
-            description: "Spend less time in invoicing with Quoting system to close deals faster with Service CRM Application quickly.",
-            image: "https://placehold.co/800x500/1e293b/22c55e?text=Quotation+Invoice+Screenshot"
-        },
-        {
-            title: "App for Service Technician",
-            description: "Adorable solution for technician to access customer details to close the jobs as well field management. Service CRM quick and convenient.",
-            image: "https://placehold.co/800x500/1e293b/f59e0b?text=Technician+App+Screenshot"
-        },
-        {
-            title: "Location tracking",
-            description: "One stop solution for searching field engineer on Google Map in real time location to boost the proficiency of technicians.",
-            image: "https://placehold.co/800x500/1e293b/ef4444?text=Location+Tracking+Screenshot"
-        },
-        {
-            title: "Job sheet on site",
-            description: "Enable to check Job history with technician details like photo, contact no and work details on client end.",
-            image: "https://placehold.co/800x500/1e293b/ec4899?text=Job+Sheet+Screenshot"
-        },
-        {
-            title: "Attendance and leave",
-            description: "Allows field engineers to mark attendance and apply leave from App in real-time with location and selfie.",
-            image: "https://placehold.co/800x500/1e293b/8b5cf6?text=Attendance+Leave+Screenshot"
-        },
-        {
-            title: "Collection and Reports",
-            description: "Analyze your daily collections and reports are now a breeze to makes your service business automate.",
-            image: "https://placehold.co/800x500/1e293b/14b8a6?text=Collection+Reports+Screenshot"
+            category: "Client & Admin",
+            items: [
+                {
+                    title: "Suitable for all Service Business",
+                    description: "Save your time and money with Service Guru Lite to Simplify and Streamline day-to-day operations hassle free.",
+                    image: "https://placehold.co/800x500/1e293b/a855f7?text=Service+Business+Screenshot"
+                },
+                {
+                    title: "Job sheet on site",
+                    description: "Enable to check Job history with technician details like photo, contact no and work details on client end.",
+                    image: "https://placehold.co/800x500/1e293b/ec4899?text=Job+Sheet+Screenshot"
+                }
+            ]
         }
     ]
 
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log("Form Submitted:", formData)
+        alert("Thank you! We will contact you soon.")
+    }
+
+    const handleGetLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                setFormData({
+                    ...formData,
+                    location: `${position.coords.latitude}, ${position.coords.longitude}`
+                })
+            }, () => {
+                alert("Unable to retrieve location.")
+            })
+        } else {
+            alert("Geolocation is not supported by this browser.")
+        }
+    }
+
     return (
-        <section className="relative w-full min-h-screen py-24 px-4 md:px-10 overflow-hidden">
+        <section className="relative w-full min-h-screen py-24 px-4 md:px-10">
             {/* Background Gradients */}
             <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-500/10 blur-[100px] rounded-full -z-10" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[100px] rounded-full -z-10" />
@@ -95,7 +142,7 @@ export default function ServiceGuru() {
                     >
                         <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Why Choose Us?</h3>
                         <p className="text-gray-300 text-lg leading-relaxed">
-                            We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-400 font-semibold">Service CRM Software lite</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service CRM is customization which makes it <span className="text-purple-400 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
+                            We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-400 font-semibold">ServiceGuru</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service Guru is customization which makes it <span className="text-purple-400 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
                         </p>
                     </motion.div>
                 </div>
@@ -110,43 +157,175 @@ export default function ServiceGuru() {
                     </Canvas>
                 </div>
 
-                {/* 4. Detailed Feature List (Alternating Layout) */}
-                <div className="space-y-32 mb-32">
-                    {features.map((feature, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: index * 0.1 }}
-                            className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center`}
-                        >
-                            {/* Text Content */}
-                            <div className="flex-1 text-center md:text-left">
-                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">{feature.title}</h3>
-                                <p className="text-gray-400 text-lg leading-relaxed">{feature.description}</p>
+                {/* 4. Process Flow Module */}
+                <div className="mb-20">
+                    <ProcessFlow />
+                </div>
+
+                {/* 5. Tabbed Feature List */}
+                <div className="mb-32">
+                    {/* Tab Headers */}
+                    <div className="flex flex-wrap justify-center gap-4 mb-16">
+                        {features.map((tab, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setActiveTab(index)}
+                                className={`px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 ${activeTab === index
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                    }`}
+                            >
+                                {tab.category}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Tab Content */}
+                    <div className="min-h-[600px]">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.5 }}
+                                className="space-y-24"
+                            >
+                                {features[activeTab].items.map((feature, index) => (
+                                    <div
+                                        key={index}
+                                        className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center`}
+                                    >
+                                        <div className="flex-1 text-center md:text-left">
+                                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">{feature.title}</h3>
+                                            <p className="text-gray-400 text-lg leading-relaxed">{feature.description.replace(/Service CRM/g, "Service Guru")}</p>
+                                        </div>
+                                        <div className="flex-1 w-full">
+                                            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-gray-900/50 backdrop-blur-sm">
+                                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                                <img
+                                                    src={feature.image}
+                                                    alt={feature.title}
+                                                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                </div>
+
+                {/* 6. Contact Form Section */}
+                <div id="contact" className="max-w-3xl mx-auto mb-32">
+                    <div className="glass p-8 md:p-12 rounded-3xl border border-white/10">
+                        <h3 className="text-3xl font-bold text-white mb-8 text-center">Get Started with ServiceGuru</h3>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Name *</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        required
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Email *</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        placeholder="john@company.com"
+                                    />
+                                </div>
                             </div>
 
-                            {/* Image/Screenshot Placeholder */}
-                            <div className="flex-1 w-full">
-                                <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-gray-900/50 backdrop-blur-sm">
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                    <img
-                                        src={feature.image}
-                                        alt={feature.title}
-                                        className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Company Name *</label>
+                                    <input
+                                        type="text"
+                                        name="company"
+                                        required
+                                        value={formData.company}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        placeholder="Acme Inc."
                                     />
-                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                        <span className="bg-black/50 text-white px-4 py-2 rounded-full text-sm backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            Screenshot Placeholder
-                                        </span>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Phone Number *</label>
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        required
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        placeholder="+1 (555) 000-0000"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">How did you hear about us?</label>
+                                    <select
+                                        name="source"
+                                        value={formData.source}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                    >
+                                        <option value="" disabled>Select an option</option>
+                                        <option value="google">Google</option>
+                                        <option value="social_media">Social Media</option>
+                                        <option value="referral">Referral</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">Location</label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            name="location"
+                                            value={formData.location}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                            placeholder="City, Country"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleGetLocation}
+                                            className="bg-white/10 hover:bg-white/20 text-white px-4 rounded-xl transition-colors"
+                                            title="Get Current Location"
+                                        >
+                                            📍
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </motion.div>
-                    ))}
+
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-blue-500/25 transform hover:scale-[1.02] transition-all duration-300"
+                            >
+                                Submit Request
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
-                {/* 5. Experience Statement */}
+                {/* 6. Experience Statement */}
                 <div className="text-center py-20 border-t border-white/10">
                     <h3 className="text-3xl md:text-4xl font-light text-white leading-relaxed">
                         “ServiceGuru isn’t just software — it’s your entire service center, <br />

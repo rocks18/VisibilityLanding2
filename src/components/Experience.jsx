@@ -1,22 +1,21 @@
-import { useRef, useState } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useScroll, ScrollControls, Scroll, Stars, Float } from '@react-three/drei'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { Stars, Float } from '@react-three/drei'
 import * as THREE from 'three'
 
 function Scene() {
-    const scroll = useScroll()
     const group = useRef()
     const particles = useRef()
 
     useFrame((state, delta) => {
-        // Rotate the entire group based on scroll
-        const r1 = scroll.range(0, 1 / 4)
-        const r2 = scroll.range(1 / 4, 1 / 4)
-        const r3 = scroll.range(2 / 4, 1 / 4)
+        // Calculate scroll offset (0 to 1) based on native window scroll
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+        const scrollOffset = maxScroll > 0 ? window.scrollY / maxScroll : 0
 
+        // Rotate the entire group based on scroll
         if (group.current) {
-            group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, -scroll.offset * Math.PI * 2, 4, delta)
-            group.current.position.z = THREE.MathUtils.damp(group.current.position.z, scroll.offset * 5, 4, delta)
+            group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, -scrollOffset * Math.PI * 2, 4, delta)
+            group.current.position.z = THREE.MathUtils.damp(group.current.position.z, scrollOffset * 5, 4, delta)
         }
 
         if (particles.current) {
@@ -64,25 +63,7 @@ function Scene() {
     )
 }
 
-export default function Experience({ children }) {
-    const [pages, setPages] = useState(6.2)
-
-    useFrame(() => {
-        const path = window.location.pathname
-        if (path === '/service-guru') {
-            if (pages !== 2.9) setPages(2.9)
-        } else {
-            if (pages !== 9.5) setPages(9.5)
-        }
-    })
-
-    return (
-        <ScrollControls pages={pages} damping={0.3}>
-            <Scene />
-            <Scroll html style={{ width: '100%' }}>
-                {children}
-            </Scroll>
-        </ScrollControls>
-    )
+export default function Experience() {
+    return <Scene />
 }
 

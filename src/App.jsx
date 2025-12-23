@@ -10,28 +10,29 @@ import TermsOfService from './pages/TermsOfService'
 
 function App() {
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-dark text-white">
-            {/* 3D Background */}
-            <div className="absolute inset-0 z-0">
-                <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-                    <Experience>
-                        {/* HTML Overlay Content managed by ScrollControls */}
-                        <main className="relative z-10 w-full">
-                            <BrowserRouter>
-                                <Navbar />
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/service-guru" element={<ServiceGuruPage />} />
-                                    <Route path="/privacy" element={<PrivacyPolicy />} />
-                                    <Route path="/terms" element={<TermsOfService />} />
-                                </Routes>
-                                <Footer />
-                            </BrowserRouter>
-                        </main>
-                    </Experience>
-                </Canvas>
+        <BrowserRouter>
+            <div className="relative w-full min-h-screen bg-dark text-white">
+                <Navbar />
+
+                {/* 3D Background - Fixed */}
+                <div className="fixed inset-0 z-0 pointer-events-none">
+                    <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+                        <Experience />
+                    </Canvas>
+                </div>
+
+                {/* Main Content - Scrollable */}
+                <main className="relative z-10 w-full">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/service-guru" element={<ServiceGuruPage />} />
+                        <Route path="/privacy" element={<PrivacyPolicy />} />
+                        <Route path="/terms" element={<TermsOfService />} />
+                    </Routes>
+                    <Footer />
+                </main>
             </div>
-        </div>
+        </BrowserRouter>
     )
 }
 
