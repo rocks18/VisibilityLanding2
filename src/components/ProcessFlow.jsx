@@ -40,7 +40,7 @@ export default function ProcessFlow() {
             {/* Process Steps */}
             <div className="relative">
                 {/* Connecting Line */}
-                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-700 -translate-y-1/2 hidden md:block" />
+                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2 hidden md:block" />
 
                 <div className="grid grid-cols-2 md:grid-cols-7 gap-8 relative">
                     {steps.map((step, index) => (
@@ -51,10 +51,10 @@ export default function ProcessFlow() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="flex flex-col items-center gap-4 relative z-10"
                         >
-                            <div className="w-12 h-12 rounded-full bg-white border-4 border-gray-200 flex items-center justify-center text-gray-700 font-bold text-lg shadow-lg">
+                            <div className="w-12 h-12 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg shadow-lg">
                                 {step.id}
                             </div>
-                            <span className="text-gray-400 text-sm md:text-base font-medium text-center">
+                            <span className="text-gray-600 text-sm md:text-base font-medium text-center">
                                 {step.label}
                             </span>
                         </motion.div>

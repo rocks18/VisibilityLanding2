@@ -99,10 +99,10 @@ export default function ServiceGuru() {
     }
 
     return (
-        <section className="relative w-full min-h-screen py-24 px-4 md:px-10">
-            {/* Background Gradients */}
-            <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-500/10 blur-[100px] rounded-full -z-10" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[100px] rounded-full -z-10" />
+        <section className="relative w-full min-h-screen py-24 px-4 md:px-10 bg-white z-40">
+            {/* Background Gradients - Subtle for Light Theme */}
+            <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100/50 blur-[100px] rounded-full -z-10" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-100/50 blur-[100px] rounded-full -z-10" />
 
             <div className="max-w-7xl mx-auto">
                 {/* 1. Intro Block */}
@@ -111,9 +111,9 @@ export default function ServiceGuru() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-gray-400 mb-6"
+                        className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
                     >
-                        Meet ServiceGuru
+                        Meet <span className="text-blue-600">ServiceGuru</span>
                     </motion.h2>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -125,7 +125,7 @@ export default function ServiceGuru() {
                             href="https://serviceguru.visibilitylabs.in/login"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
                         >
                             Login to ServiceGuru
                         </a>
@@ -138,11 +138,11 @@ export default function ServiceGuru() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="glass p-10 rounded-3xl border border-white/10"
+                        className="bg-white p-10 rounded-3xl shadow-xl border border-gray-100"
                     >
-                        <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Why Choose Us?</h3>
-                        <p className="text-gray-300 text-lg leading-relaxed">
-                            We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-400 font-semibold">ServiceGuru</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service Guru is customization which makes it <span className="text-purple-400 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
+                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Why Choose Us?</h3>
+                        <p className="text-gray-600 text-lg leading-relaxed">
+                            We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-600 font-semibold">ServiceGuru</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service Guru is customization which makes it <span className="text-purple-600 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
                         </p>
                     </motion.div>
                 </div>
@@ -150,9 +150,9 @@ export default function ServiceGuru() {
                 {/* 3. Hero 3D Product Render */}
                 <div className="relative w-full h-[500px] mb-32">
                     <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
-                        <ambientLight intensity={0.5} />
+                        <ambientLight intensity={0.8} />
                         <pointLight position={[10, 10, 10]} intensity={1} />
-                        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#blue" />
+                        <pointLight position={[-10, -10, -10]} intensity={0.5} />
                         <ServiceGuru3D />
                     </Canvas>
                 </div>
@@ -172,7 +172,7 @@ export default function ServiceGuru() {
                                 onClick={() => setActiveTab(index)}
                                 className={`px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 ${activeTab === index
                                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                                    : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700'
                                     }`}
                             >
                                 {tab.category}
@@ -197,11 +197,11 @@ export default function ServiceGuru() {
                                         className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center`}
                                     >
                                         <div className="flex-1 text-center md:text-left">
-                                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">{feature.title}</h3>
-                                            <p className="text-gray-400 text-lg leading-relaxed">{feature.description.replace(/Service CRM/g, "Service Guru")}</p>
+                                            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{feature.title}</h3>
+                                            <p className="text-gray-600 text-lg leading-relaxed">{feature.description.replace(/Service CRM/g, "Service Guru")}</p>
                                         </div>
                                         <div className="flex-1 w-full">
-                                            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-gray-900/50 backdrop-blur-sm">
+                                            <div className="relative group rounded-2xl overflow-hidden border border-gray-100 shadow-2xl bg-white">
                                                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                                 <img
                                                     src={feature.image}
@@ -219,31 +219,31 @@ export default function ServiceGuru() {
 
                 {/* 6. Contact Form Section */}
                 <div id="contact" className="max-w-3xl mx-auto mb-32">
-                    <div className="glass p-8 md:p-12 rounded-3xl border border-white/10">
-                        <h3 className="text-3xl font-bold text-white mb-8 text-center">Get Started with ServiceGuru</h3>
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100">
+                        <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Get Started with ServiceGuru</h3>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Name *</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">Name *</label>
                                     <input
                                         type="text"
                                         name="name"
                                         required
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                         placeholder="John Doe"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Email *</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">Email *</label>
                                     <input
                                         type="email"
                                         name="email"
                                         required
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                         placeholder="john@company.com"
                                     />
                                 </div>
@@ -251,26 +251,26 @@ export default function ServiceGuru() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Company Name *</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">Company Name *</label>
                                     <input
                                         type="text"
                                         name="company"
                                         required
                                         value={formData.company}
                                         onChange={handleInputChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                         placeholder="Acme Inc."
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Phone Number *</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">Phone Number *</label>
                                     <input
                                         type="tel"
                                         name="phone"
                                         required
                                         value={formData.phone}
                                         onChange={handleInputChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                         placeholder="+1 (555) 000-0000"
                                     />
                                 </div>
@@ -278,12 +278,12 @@ export default function ServiceGuru() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">How did you hear about us?</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">How did you hear about us?</label>
                                     <select
                                         name="source"
                                         value={formData.source}
                                         onChange={handleInputChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                     >
                                         <option value="" disabled>Select an option</option>
                                         <option value="google">Google</option>
@@ -293,20 +293,20 @@ export default function ServiceGuru() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Location</label>
+                                    <label className="block text-sm font-medium text-gray-600 mb-2">Location</label>
                                     <div className="flex gap-2">
                                         <input
                                             type="text"
                                             name="location"
                                             value={formData.location}
                                             onChange={handleInputChange}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                                             placeholder="City, Country"
                                         />
                                         <button
                                             type="button"
                                             onClick={handleGetLocation}
-                                            className="bg-white/10 hover:bg-white/20 text-white px-4 rounded-xl transition-colors"
+                                            className="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 rounded-xl transition-colors"
                                             title="Get Current Location"
                                         >
                                             📍
@@ -326,10 +326,10 @@ export default function ServiceGuru() {
                 </div>
 
                 {/* 6. Experience Statement */}
-                <div className="text-center py-20 border-t border-white/10">
-                    <h3 className="text-3xl md:text-4xl font-light text-white leading-relaxed">
+                <div className="text-center py-20 border-t border-gray-200">
+                    <h3 className="text-3xl md:text-4xl font-light text-gray-900 leading-relaxed">
                         “ServiceGuru isn’t just software — it’s your entire service center, <br />
-                        <span className="font-semibold text-blue-300">unified, intelligent, and beautifully simple.</span>”
+                        <span className="font-semibold text-blue-600">unified, intelligent, and beautifully simple.</span>”
                     </h3>
                 </div>
             </div>
