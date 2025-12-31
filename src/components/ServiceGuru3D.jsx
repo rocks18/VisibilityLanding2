@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Float, RoundedBox, Text } from '@react-three/drei'
+import { Float, RoundedBox, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
+import dashboardScreen from '../assets/dashboard_screen.png'
 
 export default function ServiceGuru3D() {
     const group = useRef()
     const [hovered, setHover] = useState(false)
+    const texture = useTexture(dashboardScreen)
 
     useFrame((state) => {
         if (group.current) {
@@ -37,22 +39,10 @@ export default function ServiceGuru3D() {
                     />
                 </RoundedBox>
 
-                {/* Screen Content Placeholder */}
+                {/* Screen Content with Image Texture */}
                 <mesh position={[0, 0, 0.06]}>
                     <planeGeometry args={[3.8, 2.3]} />
-                    <meshBasicMaterial color="#ffffff" />
-                </mesh>
-
-                {/* Header Bar */}
-                <mesh position={[0, 1, 0.07]}>
-                    <planeGeometry args={[3.8, 0.3]} />
-                    <meshBasicMaterial color="#e5e5ea" />
-                </mesh>
-
-                {/* Sidebar */}
-                <mesh position={[-1.5, -0.15, 0.07]}>
-                    <planeGeometry args={[0.8, 2]} />
-                    <meshBasicMaterial color="#f2f2f7" />
+                    <meshBasicMaterial map={texture} toneMapped={false} />
                 </mesh>
 
                 {/* Floating Widget 1: Analytics */}

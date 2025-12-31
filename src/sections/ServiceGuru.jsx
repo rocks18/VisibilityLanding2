@@ -3,6 +3,14 @@ import { Canvas } from '@react-three/fiber'
 import { motion, AnimatePresence } from 'framer-motion'
 import ServiceGuru3D from '../components/ServiceGuru3D'
 import ProcessFlow from '../components/ProcessFlow'
+import jobManagementImg from '../assets/job_management.png'
+import attendanceImg from '../assets/attendance.png'
+import invoiceImg from '../assets/invoice.png'
+import jobsheetImg from '../assets/jobsheet.png'
+import locationImg from '../assets/location.png'
+import reportsImg from '../assets/reports.png'
+import serviceBusinessImg from '../assets/service_business.jpg'
+import technicianAppImg from '../assets/technician_app.jpg'
 
 export default function ServiceGuru() {
     const [activeTab, setActiveTab] = useState(0)
@@ -22,17 +30,17 @@ export default function ServiceGuru() {
                 {
                     title: "Job Management",
                     description: "Offers Job Creation, Job Allocation and Job Scheduling in easy way to manage and upgrade your small service business.",
-                    image: "https://placehold.co/800x500/1e293b/60a5fa?text=Job+Management+Screenshot"
+                    image: jobManagementImg
                 },
                 {
                     title: "Quotation and Invoice",
                     description: "Spend less time in invoicing with Quoting system to close deals faster with Service Guru Application quickly.",
-                    image: "https://placehold.co/800x500/1e293b/22c55e?text=Quotation+Invoice+Screenshot"
+                    image: invoiceImg
                 },
                 {
                     title: "Collection and Reports",
                     description: "Analyze your daily collections and reports are now a breeze to makes your service business automate.",
-                    image: "https://placehold.co/800x500/1e293b/14b8a6?text=Collection+Reports+Screenshot"
+                    image: reportsImg
                 }
             ]
         },
@@ -42,17 +50,17 @@ export default function ServiceGuru() {
                 {
                     title: "App for Service Technician",
                     description: "Adorable solution for technician to access customer details to close the jobs as well field management. Service Guru quick and convenient.",
-                    image: "https://placehold.co/800x500/1e293b/f59e0b?text=Technician+App+Screenshot"
+                    image: technicianAppImg
                 },
                 {
                     title: "Location tracking",
                     description: "One stop solution for searching field engineer on Google Map in real time location to boost the proficiency of technicians.",
-                    image: "https://placehold.co/800x500/1e293b/ef4444?text=Location+Tracking+Screenshot"
+                    image: locationImg
                 },
                 {
                     title: "Attendance and leave",
                     description: "Allows field engineers to mark attendance and apply leave from App in real-time with location and selfie.",
-                    image: "https://placehold.co/800x500/1e293b/8b5cf6?text=Attendance+Leave+Screenshot"
+                    image: attendanceImg
                 }
             ]
         },
@@ -62,12 +70,12 @@ export default function ServiceGuru() {
                 {
                     title: "Suitable for all Service Business",
                     description: "Save your time and money with Service Guru Lite to Simplify and Streamline day-to-day operations hassle free.",
-                    image: "https://placehold.co/800x500/1e293b/a855f7?text=Service+Business+Screenshot"
+                    image: serviceBusinessImg
                 },
                 {
                     title: "Job sheet on site",
                     description: "Enable to check Job history with technician details like photo, contact no and work details on client end.",
-                    image: "https://placehold.co/800x500/1e293b/ec4899?text=Job+Sheet+Screenshot"
+                    image: jobsheetImg
                 }
             ]
         }
