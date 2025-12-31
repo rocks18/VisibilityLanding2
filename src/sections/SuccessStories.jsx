@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Section from '../components/Section'
+import saamagreeImg from '../assets/saamagree.png'
+import serviceguruImg from '../assets/serviceguru.png'
+import uniyalImg from '../assets/uniyal.png'
+import visibilityImg from '../assets/visibilitylabs.png'
 
 const projects = [
     {
@@ -9,7 +13,7 @@ const projects = [
         category: "E-Commerce Platform",
         description: "A comprehensive marketplace for construction materials, streamlining the supply chain with real-time inventory and logistics tracking.",
         url: "https://saamagree.in/",
-        image: "https://placehold.co/1200x800/1e293b/60a5fa?text=Saamagree+Preview",
+        image: saamagreeImg,
         color: "from-blue-600 to-accent"
     },
     {
@@ -17,18 +21,18 @@ const projects = [
         title: "ServiceGuru",
         category: "SaaS Platform",
         description: "AI-driven service center management solution automating ticketing, engineer assignment, and lifecycle tracking.",
-        url: "https://serviceguru.visibilitylabs.in/",
-        image: "https://placehold.co/1200x800/1e293b/a855f7?text=ServiceGuru+Preview",
+        url: "https://serviceguru.visibilitylabs.in/login",
+        image: serviceguruImg,
         color: "from-secondary to-purple-500"
     },
     {
         id: 3,
-        title: "TechNova",
-        category: "Corporate Website",
-        description: "Modern corporate identity for a leading tech consultancy, featuring 3D visualizations and interactive case studies.",
-        url: "#",
-        image: "https://placehold.co/1200x800/1e293b/22c55e?text=TechNova+Preview",
-        color: "from-emerald-500 to-teal-400"
+        title: "Uniyal Transport",
+        category: "Logistics & Transport",
+        description: "A premier logistics partner delivering reliable transportation solutions with optimized network management and real-time fleet tracking across the nation.",
+        url: "https://www.uniyaltransport.com/",
+        image: uniyalImg,
+        color: "from-orange-500 to-amber-600"
     },
     {
         id: 4,
@@ -36,8 +40,8 @@ const projects = [
         category: "Start Your Journey",
         description: "Ready to write your own success story? Let's build something extraordinary together.",
         url: "#contact",
-        image: "https://placehold.co/1200x800/1e293b/f59e0b?text=Start+Project",
-        color: "from-orange-500 to-red-500",
+        image: visibilityImg,
+        color: "from-blue-500 to-cyan-400",
         isCTA: true
     }
 ]
@@ -155,8 +159,15 @@ export default function SuccessStories() {
                             transition={{ duration: 0.4 }}
                             className="absolute inset-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-dark group"
                         >
-                            {/* Image Placeholder */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${projects[active].color} opacity-10`} />
+                            {/* Image Background */}
+                            <div className="absolute inset-0">
+                                <img
+                                    src={projects[active].image}
+                                    alt={projects[active].title}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-dark/60 group-hover:bg-dark/40 transition-colors duration-500" />
+                            </div>
 
                             {/* Content Overlay */}
                             <div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-dark via-dark/50 to-transparent">
@@ -176,12 +187,6 @@ export default function SuccessStories() {
                                         {!projects[active].isCTA && <span>→</span>}
                                     </a>
                                 </div>
-                            </div>
-
-                            {/* Placeholder Text for Image Area */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/20 text-4xl font-bold uppercase tracking-widest pointer-events-none text-center">
-                                {projects[active].title} <br />
-                                <span className="text-2xl opacity-50">{projects[active].isCTA ? "Join Us" : "Preview"}</span>
                             </div>
                         </motion.div>
                     </AnimatePresence>
