@@ -57,7 +57,7 @@ export default function Navbar() {
                             <a href="/#services" onClick={(e) => handleScroll(e, '#services')} className={`${textClass} transition-colors px-3 py-2 rounded-md text-sm font-medium`}>Services</a>
                             <Link to="/service-guru" className={`${textClass} transition-colors px-3 py-2 rounded-md text-sm font-medium`}>Service Guru</Link>
                             <a href="/#process" onClick={(e) => handleScroll(e, '#process')} className={`${textClass} transition-colors px-3 py-2 rounded-md text-sm font-medium`}>Process</a>
-                            <a href="/#clients" onClick={(e) => handleScroll(e, '#clients')} className={`${textClass} transition-colors px-3 py-2 rounded-md text-sm font-medium`}>Clients</a>
+                            <a href="/#success-stories" onClick={(e) => handleScroll(e, '#success-stories')} className={`${textClass} transition-colors px-3 py-2 rounded-md text-sm font-medium`}>Success Stories</a>
                             <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className={`bg-accent text-black hover:bg-white transition-colors px-4 py-2 rounded-full text-sm font-bold cursor-pointer ${isServiceGuru ? 'bg-blue-600 text-white hover:bg-blue-700' : ''}`}>Start Project</a>
                         </div>
                     </div>
@@ -87,7 +87,7 @@ export default function Navbar() {
                         <a href="/#services" onClick={(e) => handleScroll(e, '#services')} className={`block px-3 py-2 rounded-md text-base font-medium ${textClass}`}>Services</a>
                         <Link to="/service-guru" onClick={() => setIsOpen(false)} className={`block px-3 py-2 rounded-md text-base font-medium ${textClass}`}>Service Guru</Link>
                         <a href="/#process" onClick={(e) => handleScroll(e, '#process')} className={`block px-3 py-2 rounded-md text-base font-medium ${textClass}`}>Process</a>
-                        <a href="/#clients" onClick={(e) => handleScroll(e, '#clients')} className={`block px-3 py-2 rounded-md text-base font-medium ${textClass}`}>Clients</a>
+                        <a href="/#success-stories" onClick={(e) => handleScroll(e, '#success-stories')} className={`block px-3 py-2 rounded-md text-base font-medium ${textClass}`}>Success Stories</a>
                         <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className={`block px-3 py-2 rounded-md text-base font-medium ${isServiceGuru ? 'text-blue-600' : 'text-accent'}`}>Start Project</a>
                     </div>
                 </div>

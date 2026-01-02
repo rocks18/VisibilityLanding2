@@ -13,9 +13,7 @@ export default function Home() {
 
             <Services />
             <Process />
-            <TechStack />
             <SuccessStories />
-            <Clients />
             <Contact />
         </>
     )

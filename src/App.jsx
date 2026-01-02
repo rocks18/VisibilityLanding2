@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import Experience from './components/Experience'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import ServiceGuruPage from './pages/ServiceGuruPage'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -11,6 +12,7 @@ import TermsOfService from './pages/TermsOfService'
 function App() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <div className="relative w-full min-h-screen bg-dark text-white">
                 <Navbar />
 

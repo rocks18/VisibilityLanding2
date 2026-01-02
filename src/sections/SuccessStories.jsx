@@ -95,7 +95,7 @@ export default function SuccessStories() {
     }, [scrollYProgress, active])
 
     return (
-        <section ref={containerRef} className="relative w-full h-[300vh]">
+        <section id="success-stories" ref={containerRef} className="relative w-full h-[300vh]">
             <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden py-24 px-4 md:px-10">
                 <div
                     className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-12 items-center"

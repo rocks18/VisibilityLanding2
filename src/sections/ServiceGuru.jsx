@@ -163,20 +163,7 @@ export default function ServiceGuru() {
                     </div>
                 </div>
 
-                {/* 2. Why Choose Us Section */}
-                <div className="mb-32 text-center max-w-4xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="bg-white p-10 rounded-3xl shadow-xl border border-gray-100"
-                    >
-                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Why Choose Us?</h3>
-                        <p className="text-gray-600 text-lg leading-relaxed">
-                            We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-600 font-semibold">ServiceGuru</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service Guru is customization which makes it <span className="text-purple-600 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
-                        </p>
-                    </motion.div>
-                </div>
+
 
                 {/* 4. Process Flow Module */}
                 <div className="mb-20">
