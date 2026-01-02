@@ -12,14 +12,18 @@ export default function ServiceGuru3D() {
     useFrame((state) => {
         if (group.current) {
             // Gentle floating rotation
+            // Clamp mouse values to prevent extreme rotations
+            const mouseX = THREE.MathUtils.clamp(state.mouse.x, -1, 1)
+            const mouseY = THREE.MathUtils.clamp(state.mouse.y, -1, 1)
+
             group.current.rotation.y = THREE.MathUtils.lerp(
                 group.current.rotation.y,
-                (state.mouse.x * Math.PI) / 10,
+                (mouseX * Math.PI) / 20,
                 0.05
             )
             group.current.rotation.x = THREE.MathUtils.lerp(
                 group.current.rotation.x,
-                (state.mouse.y * Math.PI) / 10,
+                (mouseY * Math.PI) / 20,
                 0.05
             )
         }

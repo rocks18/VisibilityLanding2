@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { motion, AnimatePresence } from 'framer-motion'
 import ServiceGuru3D from '../components/ServiceGuru3D'
-import ProcessFlow from '../components/ProcessFlow'
+
 import jobManagementImg from '../assets/job_management.png'
 import attendanceImg from '../assets/attendance.png'
 import invoiceImg from '../assets/invoice.png'
@@ -141,19 +141,27 @@ export default function ServiceGuru() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            <a
-                                href="https://serviceguru.visibilitylabs.in/login"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
-                            >
-                                Login to ServiceGuru
-                            </a>
+                            <div className="flex flex-wrap gap-4">
+                                <a
+                                    href="https://serviceguru.visibilitylabs.in/login"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                                >
+                                    Login to ServiceGuru
+                                </a>
+                                <a
+                                    href="#contact"
+                                    className="inline-block px-10 py-4 bg-white text-blue-600 border-2 border-blue-600 text-lg font-bold rounded-full shadow-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300"
+                                >
+                                    Schedule Demo
+                                </a>
+                            </div>
                         </motion.div>
                     </div>
 
                     {/* Right Column: 3D Product Render */}
-                    <div className="flex-1 w-full h-[600px] relative">
+                    <div className="flex-1 w-full h-[720px] relative">
                         <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
                             <ambientLight intensity={0.8} />
                             <pointLight position={[10, 10, 10]} intensity={1} />
@@ -165,10 +173,7 @@ export default function ServiceGuru() {
 
 
 
-                {/* 4. Process Flow Module */}
-                <div className="mb-20">
-                    <ProcessFlow />
-                </div>
+
 
                 {/* 5. Tabbed Feature List */}
                 <div className="mb-32">
@@ -224,6 +229,8 @@ export default function ServiceGuru() {
                         </AnimatePresence>
                     </div>
                 </div>
+
+
 
                 {/* 6. Contact Form Section */}
                 <div id="contact" className="max-w-3xl mx-auto mb-32">
