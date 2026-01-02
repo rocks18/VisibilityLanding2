@@ -44,32 +44,6 @@ export default function ServiceGuru3D() {
                     <planeGeometry args={[3.8, 2.3]} />
                     <meshBasicMaterial map={texture} toneMapped={false} />
                 </mesh>
-
-                {/* Floating Widget 1: Analytics */}
-                <Float speed={3} rotationIntensity={0.5} floatIntensity={1}>
-                    <group position={[2.5, 1, 0.5]}>
-                        <RoundedBox args={[1.2, 0.8, 0.05]} radius={0.05} smoothness={4}>
-                            <meshPhysicalMaterial color="#ffffff" transmission={0.5} thickness={0.5} roughness={0} />
-                        </RoundedBox>
-                        <mesh position={[0, 0, 0.03]}>
-                            <planeGeometry args={[1, 0.6]} />
-                            <meshBasicMaterial color="#007aff" />
-                        </mesh>
-                    </group>
-                </Float>
-
-                {/* Floating Widget 2: Map Pin */}
-                <Float speed={2.5} rotationIntensity={0.4} floatIntensity={0.8}>
-                    <group position={[-2.5, -0.5, 0.8]}>
-                        <RoundedBox args={[0.8, 0.8, 0.05]} radius={0.05} smoothness={4}>
-                            <meshPhysicalMaterial color="#ffffff" transmission={0.5} thickness={0.5} roughness={0} />
-                        </RoundedBox>
-                        <mesh position={[0, 0, 0.03]}>
-                            <circleGeometry args={[0.2, 32]} />
-                            <meshBasicMaterial color="#34c759" />
-                        </mesh>
-                    </group>
-                </Float>
             </Float>
         </group>
     )

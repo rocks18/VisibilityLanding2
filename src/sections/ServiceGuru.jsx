@@ -113,31 +113,54 @@ export default function ServiceGuru() {
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-100/50 blur-[100px] rounded-full -z-10" />
 
             <div className="max-w-7xl mx-auto">
-                {/* 1. Intro Block */}
-                <div className="text-center mb-20">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-5xl md:text-7xl font-bold text-gray-900 mb-6"
-                    >
-                        Meet <span className="text-blue-600">ServiceGuru</span>
-                    </motion.h2>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="mt-8"
-                    >
-                        <a
-                            href="https://serviceguru.visibilitylabs.in/login"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                {/* Hero Section */}
+                <div className="flex flex-col lg:flex-row items-center justify-between mb-20 gap-12">
+                    {/* Left Column: Text & CTA */}
+                    <div className="flex-1 text-left z-10">
+                        <motion.h2
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-6xl md:text-8xl font-bold text-gray-900 mb-8 tracking-tight"
                         >
-                            Login to ServiceGuru
-                        </a>
-                    </motion.div>
+                            Meet <br />
+                            <span className="text-blue-600">ServiceGuru</span>
+                        </motion.h2>
+
+                        <motion.p
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="text-xl text-gray-600 mb-10 max-w-lg"
+                        >
+                            The ultimate solution to manage and upgrade your service business. Unified, intelligent, and beautifully simple.
+                        </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                        >
+                            <a
+                                href="https://serviceguru.visibilitylabs.in/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                            >
+                                Login to ServiceGuru
+                            </a>
+                        </motion.div>
+                    </div>
+
+                    {/* Right Column: 3D Product Render */}
+                    <div className="flex-1 w-full h-[600px] relative">
+                        <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+                            <ambientLight intensity={0.8} />
+                            <pointLight position={[10, 10, 10]} intensity={1} />
+                            <pointLight position={[-10, -10, -10]} intensity={0.5} />
+                            <ServiceGuru3D />
+                        </Canvas>
+                    </div>
                 </div>
 
                 {/* 2. Why Choose Us Section */}
@@ -153,16 +176,6 @@ export default function ServiceGuru() {
                             We believe in understanding the essential needs of the service industry and provide best solution through <span className="text-blue-600 font-semibold">ServiceGuru</span> to keep the organization stay up-to-date anytime anywhere. The best quality of Service Guru is customization which makes it <span className="text-purple-600 font-semibold">"First Choice"</span> for any kind of organization either it is small, medium or large. Grow up your service business and work smarter to scale up in service industry.
                         </p>
                     </motion.div>
-                </div>
-
-                {/* 3. Hero 3D Product Render */}
-                <div className="relative w-full h-[500px] mb-32">
-                    <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
-                        <ambientLight intensity={0.8} />
-                        <pointLight position={[10, 10, 10]} intensity={1} />
-                        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-                        <ServiceGuru3D />
-                    </Canvas>
                 </div>
 
                 {/* 4. Process Flow Module */}
