@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { motion, AnimatePresence } from 'framer-motion'
 import ServiceGuru3D from '../components/ServiceGuru3D'
-
+import SuccessPopup from '../components/SuccessPopup'
 import jobManagementImg from '../assets/job_management.png'
 import attendanceImg from '../assets/attendance.png'
 import invoiceImg from '../assets/invoice.png'
@@ -14,6 +14,7 @@ import technicianAppImg from '../assets/technician_app.jpg'
 
 export default function ServiceGuru() {
     const [activeTab, setActiveTab] = useState(0)
+    const [showSuccess, setShowSuccess] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -85,10 +86,49 @@ export default function ServiceGuru() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         console.log("Form Submitted:", formData)
-        alert("Thank you! We will contact you soon.")
+
+        try {
+            const payload = {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                company: formData.company,
+                source: "ServiceGuru Page",
+                details: {
+                    location: formData.location,
+                    referralSource: formData.source
+                }
+            }
+
+            const response = await fetch('https://sgbackend.visibilitylabs.in/api/inquiries/public', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+
+            if (response.ok) {
+                setShowSuccess(true)
+                setFormData({
+                    name: '',
+                    email: '',
+                    company: '',
+                    phone: '',
+                    source: '',
+                    location: ''
+                })
+            } else {
+                alert("Submission failed. Please try again.")
+                console.error('Submission failed')
+            }
+        } catch (error) {
+            console.error('Network error', error)
+            alert("Network error. Please try again later.")
+        }
     }
 
     const handleGetLocation = () => {
@@ -347,6 +387,13 @@ export default function ServiceGuru() {
                         <span className="font-semibold text-blue-600">unified, intelligent, and beautifully simple.</span>”
                     </h3>
                 </div>
+
+                <SuccessPopup
+                    isOpen={showSuccess}
+                    onClose={() => setShowSuccess(false)}
+                    title="Request Received!"
+                    message="Thank you for your interest in ServiceGuru. Our team will contact you shortly to schedule your demo."
+                />
             </div>
         </section>
     )
