@@ -24,8 +24,7 @@ export default function Footer() {
                     <div className="flex space-x-6">
                         <Link to="/privacy" className={`${textClass} transition-colors`}>Privacy Policy</Link>
                         <Link to="/terms" className={`${textClass} transition-colors`}>Terms of Service</Link>
-                        <a href="#" className={`${textClass} transition-colors`}>Twitter</a>
-                        <a href="#" className={`${textClass} transition-colors`}>LinkedIn</a>
+                        <a href="https://www.linkedin.com/company/visibilitylabs/" target="_blank" rel="noopener noreferrer" className={`${textClass} transition-colors`}>LinkedIn</a>
                     </div>
                 </div>
             </div>

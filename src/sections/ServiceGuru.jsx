@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { motion, AnimatePresence } from 'framer-motion'
 import ServiceGuru3D from '../components/ServiceGuru3D'
 import SuccessPopup from '../components/SuccessPopup'
+import CalendlyModal from '../components/CalendlyModal'
 import jobManagementImg from '../assets/job_management.png'
 import attendanceImg from '../assets/attendance.png'
 import invoiceImg from '../assets/invoice.png'
@@ -15,6 +16,7 @@ import technicianAppImg from '../assets/technician_app.jpg'
 export default function ServiceGuru() {
     const [activeTab, setActiveTab] = useState(0)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [showCalendly, setShowCalendly] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -147,7 +149,7 @@ export default function ServiceGuru() {
     }
 
     return (
-        <section className="relative w-full min-h-screen py-12 md:py-24 px-4 md:px-10 bg-white z-40 overflow-x-hidden">
+        <section className="relative w-full min-h-screen py-24 md:py-24 px-4 md:px-10 bg-white z-40 overflow-x-hidden">
             {/* Background Gradients - Subtle for Light Theme */}
             <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100/50 blur-[100px] rounded-full -z-10" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-100/50 blur-[100px] rounded-full -z-10" />
@@ -187,19 +189,19 @@ export default function ServiceGuru() {
                                 rel="noopener noreferrer"
                                 className="inline-block px-6 md:px-10 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-base md:text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
                             >
-                                Login to ServiceGuru
+                                Login
                             </a>
-                            <a
-                                href="#contact"
+                            <button
+                                onClick={() => setShowCalendly(true)}
                                 className="inline-block px-6 md:px-10 py-3 md:py-4 bg-white text-blue-600 border-2 border-blue-600 text-base md:text-lg font-bold rounded-full shadow-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300"
                             >
                                 Schedule Demo
-                            </a>
+                            </button>
                         </motion.div>
                     </div>
 
                     {/* Right Column: 3D Product Render */}
-                    <div className="flex-1 w-full h-[50vh] lg:h-[720px] relative">
+                    <div className="flex-1 w-full h-[70vh] lg:h-[720px] relative">
                         <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
                             <ambientLight intensity={0.8} />
                             <pointLight position={[10, 10, 10]} intensity={1} />
@@ -391,6 +393,11 @@ export default function ServiceGuru() {
                     onClose={() => setShowSuccess(false)}
                     title="Request Received!"
                     message="Thank you for your interest in ServiceGuru. Our team will contact you shortly to schedule your demo."
+                />
+
+                <CalendlyModal
+                    isOpen={showCalendly}
+                    onClose={() => setShowCalendly(false)}
                 />
             </div >
         </section >
