@@ -147,7 +147,7 @@ export default function ServiceGuru() {
     }
 
     return (
-        <section className="relative w-full min-h-screen py-24 px-4 md:px-10 bg-white z-40">
+        <section className="relative w-full min-h-screen py-12 md:py-24 px-4 md:px-10 bg-white z-40 overflow-x-hidden">
             {/* Background Gradients - Subtle for Light Theme */}
             <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100/50 blur-[100px] rounded-full -z-10" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-100/50 blur-[100px] rounded-full -z-10" />
@@ -161,7 +161,7 @@ export default function ServiceGuru() {
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="text-6xl md:text-8xl font-bold text-gray-900 mb-8 tracking-tight"
+                            className="text-4xl md:text-6xl lg:text-8xl font-bold text-gray-900 mb-6 md:mb-8 tracking-tight"
                         >
                             Meet <br />
                             <span className="text-blue-600">ServiceGuru</span>
@@ -181,27 +181,25 @@ export default function ServiceGuru() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            <div className="flex flex-wrap gap-4">
-                                <a
-                                    href="https://serviceguru.visibilitylabs.in/login"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
-                                >
-                                    Login to ServiceGuru
-                                </a>
-                                <a
-                                    href="#contact"
-                                    className="inline-block px-10 py-4 bg-white text-blue-600 border-2 border-blue-600 text-lg font-bold rounded-full shadow-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300"
-                                >
-                                    Schedule Demo
-                                </a>
-                            </div>
+                            <a
+                                href="https://serviceguru.visibilitylabs.in/login"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block px-6 md:px-10 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-base md:text-lg font-bold rounded-full shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                            >
+                                Login to ServiceGuru
+                            </a>
+                            <a
+                                href="#contact"
+                                className="inline-block px-6 md:px-10 py-3 md:py-4 bg-white text-blue-600 border-2 border-blue-600 text-base md:text-lg font-bold rounded-full shadow-lg hover:bg-blue-50 transform hover:scale-105 transition-all duration-300"
+                            >
+                                Schedule Demo
+                            </a>
                         </motion.div>
                     </div>
 
                     {/* Right Column: 3D Product Render */}
-                    <div className="flex-1 w-full h-[720px] relative">
+                    <div className="flex-1 w-full h-[50vh] lg:h-[720px] relative">
                         <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
                             <ambientLight intensity={0.8} />
                             <pointLight position={[10, 10, 10]} intensity={1} />
@@ -216,7 +214,7 @@ export default function ServiceGuru() {
 
 
                 {/* 5. Tabbed Feature List */}
-                <div className="mb-32">
+                <div className="mb-16 md:mb-32">
                     {/* Tab Headers */}
                     <div className="flex flex-wrap justify-center gap-4 mb-16">
                         {features.map((tab, index) => (
@@ -394,7 +392,7 @@ export default function ServiceGuru() {
                     title="Request Received!"
                     message="Thank you for your interest in ServiceGuru. Our team will contact you shortly to schedule your demo."
                 />
-            </div>
-        </section>
+            </div >
+        </section >
     )
 }

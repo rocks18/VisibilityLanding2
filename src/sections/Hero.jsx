@@ -3,8 +3,8 @@ import Section from '../components/Section'
 export default function Hero() {
     return (
         <Section id="home" className="pt-20">
-            <div className="max-w-4xl">
-                <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
+            <div className="max-w-4xl px-4 md:px-0">
+                <h1 className="text-4xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
                     We Build The <br />
                     <span className="text-gradient-accent">Digital Future</span>
                 </h1>

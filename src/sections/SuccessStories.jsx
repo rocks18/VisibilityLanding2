@@ -96,9 +96,9 @@ export default function SuccessStories() {
 
     return (
         <section id="success-stories" ref={containerRef} className="relative w-full h-[300vh]">
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden py-24 px-4 md:px-10">
+            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden py-12 md:py-24 px-4 md:px-10">
                 <div
-                    className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-12 items-center"
+                    className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-8 md:gap-12 items-center h-full md:h-auto justify-center"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -146,7 +146,7 @@ export default function SuccessStories() {
                     </div>
 
                     {/* Right Side: Preview Carousel */}
-                    <div className="w-full md:w-2/3 relative h-[400px] md:h-[500px]">
+                    <div className="w-full md:w-2/3 relative h-[300px] md:h-[500px]">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={active}

@@ -35,12 +35,12 @@ export default function Navbar() {
     }
 
     const navClass = isServiceGuru
-        ? "fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-300"
-        : "fixed w-full z-50 glass-nav transition-all duration-300"
+        ? "fixed w-full z-[100] bg-white/90 backdrop-blur-md border-b border-gray-200 transition-all duration-300"
+        : "fixed w-full z-[100] glass-nav transition-all duration-300"
 
     const textClass = isServiceGuru ? "text-gray-900 hover:text-blue-600" : "text-white hover:text-accent"
     const logoClass = isServiceGuru ? "text-gray-900" : "text-white"
-    const mobileMenuClass = isServiceGuru ? "md:hidden bg-white border-t border-gray-200" : "md:hidden glass border-t border-gray-800"
+    const mobileMenuClass = isServiceGuru ? "md:hidden bg-white border-t border-gray-200 absolute w-full left-0 shadow-xl" : "md:hidden bg-black border-t border-gray-800 absolute w-full left-0"
 
     return (
         <nav className={navClass}>
