@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { logVisit } from './services/analytics'
 import { Canvas } from '@react-three/fiber'
 import Experience from './components/Experience'
 import Navbar from './components/Navbar'
@@ -10,6 +12,15 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 
 function App() {
+    const hasLogged = useRef(false)
+
+    useEffect(() => {
+        if (!hasLogged.current) {
+            logVisit()
+            hasLogged.current = true
+        }
+    }, [])
+
     return (
         <BrowserRouter>
             <ScrollToTop />
