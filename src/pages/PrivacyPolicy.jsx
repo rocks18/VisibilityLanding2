@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
                     </ul>
 
                     <h2 class="text-2xl font-bold text-white mt-8">3. Contact Us</h2>
-                    <p>If you have any questions about this privacy policy, please contact us at: privacy@visibilitylabs.com</p>
+                    <p>If you have any questions about this privacy policy, please contact us at: visibilitylabs01@gmail.com</p>
                 </div>
             </div>
         </Section>
